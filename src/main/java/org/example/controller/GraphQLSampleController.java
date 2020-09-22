@@ -6,7 +6,10 @@ import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import io.leangen.graphql.GraphQLSchemaGenerator;
 import lombok.Value;
-import org.example.query.TestQuery;
+import org.example.query.BallotQuery;
+import org.example.query.ChoiceQuery;
+import org.example.query.PollQuery;
+import org.example.query.VoterQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +30,15 @@ public class GraphQLSampleController {
 
 	@Autowired
 	public GraphQLSampleController(
-		TestQuery testQuery
+		PollQuery pollQuery,
+		ChoiceQuery choiceQuery,
+		VoterQuery voterQuery,
+		BallotQuery ballotQuery
 	) {
 		//Schema generated from query classes
 		GraphQLSchema schema = new GraphQLSchemaGenerator()
 			.withBasePackages("org.example")
-			.withOperationsFromSingletons(testQuery)
+			.withOperationsFromSingletons(pollQuery, choiceQuery, voterQuery, ballotQuery)
 			.generate();
 		graphQL = GraphQL.newGraphQL(schema).build();
 
