@@ -1,7 +1,6 @@
 package org.example.query;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
-import org.example.model.Poll;
 import org.example.model.Voter;
 import org.example.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
