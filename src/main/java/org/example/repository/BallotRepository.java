@@ -5,4 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BallotRepository extends CrudRepository<Ballot, Ballot.BallotId> {}
+public interface BallotRepository extends CrudRepository<Ballot, Ballot.BallotId>, CustomBallotRepository {}

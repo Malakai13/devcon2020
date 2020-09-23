@@ -16,4 +16,9 @@ public class BallotQuery {
 	public Iterable<Ballot> ballots() {
 		return ballotRepository.findAll();
 	}
+
+	@GraphQLQuery
+	public Iterable<Ballot> ballotsByPollId(int pollId) {
+		return ballotRepository.ballotsByPollId(pollId);
+	}
 }
