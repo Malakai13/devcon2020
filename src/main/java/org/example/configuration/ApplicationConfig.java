@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories
@@ -40,9 +39,6 @@ public class ApplicationConfig {
 		vendorAdapter.setShowSql(true);
 
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-//		Properties jpaProps = new Properties();
-//		jpaProps.setProperty();
-//		factory.setJpaProperties(jpaProps);
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("org.example");
 		factory.setDataSource(dataSource());
