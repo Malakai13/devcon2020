@@ -6,6 +6,7 @@ import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import io.leangen.graphql.GraphQLSchemaGenerator;
 import lombok.Value;
+import org.example.mutation.TestMutation;
 import org.example.query.BallotQuery;
 import org.example.query.ChoiceQuery;
 import org.example.query.PollQuery;
@@ -33,12 +34,13 @@ public class GraphQLSampleController {
 		PollQuery pollQuery,
 		ChoiceQuery choiceQuery,
 		VoterQuery voterQuery,
-		BallotQuery ballotQuery
+		BallotQuery ballotQuery,
+		TestMutation testMutation
 	) {
 		//Schema generated from query classes
 		GraphQLSchema schema = new GraphQLSchemaGenerator()
 			.withBasePackages("org.example")
-			.withOperationsFromSingletons(pollQuery, choiceQuery, voterQuery, ballotQuery)
+			.withOperationsFromSingletons(pollQuery, choiceQuery, voterQuery, ballotQuery, testMutation)
 			.generate();
 		graphQL = GraphQL.newGraphQL(schema).build();
 
