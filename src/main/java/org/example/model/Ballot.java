@@ -30,7 +30,8 @@ public class Ballot {
 	@Column
 	Integer place;
 
-	@Value
+	@Data
+	@NoArgsConstructor
 	public static class BallotId implements Serializable {
 		Integer voterId;
 		Integer choiceId;

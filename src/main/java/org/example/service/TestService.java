@@ -11,11 +11,7 @@ import org.example.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -35,23 +31,33 @@ public class TestService {
 
 		final String favoriteAnimal = "Favorite Animal";
 
-		Iterable<Poll> polls = pollRepository.saveAll(List.of(
-			new Poll(null, "Favorite Color", Set.of()),
-			new Poll(null, "Favorite Ice Cream", Set.of()),
-			new Poll(null, favoriteAnimal, Set.of(
-				Choice.builder().description("Dog").build(),
-				Choice.builder().description("Cat").build(),
-				Choice.builder().description("Llama").build(),
-				Choice.builder().description("Panda").build(),
-				Choice.builder().description("Orca").build(),
-				Choice.builder().description("Rabbit").build()
-			))
+		List<Poll> pollList = new ArrayList<>();
+		pollList.addAll(List.of(
+				new Poll(null, "Favorite Color", Set.of()),
+				new Poll(null, "Favorite Ice Cream", Set.of()),
+				new Poll(null, favoriteAnimal, Set.of())
 		));
+		Iterable<Poll> polls = pollRepository.saveAll(pollList);
 
 		Poll favoriteAnimalPoll = StreamSupport.stream(polls.spliterator(), false)
 			.filter(poll -> Objects.equals(poll.getName(), favoriteAnimal))
 			.findFirst()
 			.orElseThrow();
+
+		Integer favoriteAnimalPollId = favoriteAnimalPoll.getPollId();
+		Choice.ChoiceBuilder choiceBuilder = Choice.builder().pollId(favoriteAnimalPollId);
+
+		Set<Choice> favoriteAnimalChoices = new HashSet<>();
+		favoriteAnimalChoices.addAll(Set.of(
+				choiceBuilder.description("Dog").build(),
+				choiceBuilder.description("Cat").build(),
+				choiceBuilder.description("Llama").build(),
+				choiceBuilder.description("Panda").build(),
+				choiceBuilder.description("Orca").build(),
+				choiceBuilder.description("Rabbit").build()
+		));
+
+		Iterable<Choice> choices = choiceRepository.saveAll(favoriteAnimalChoices);
 
 		Iterable<Voter> voters = voterRepository.saveAll(
 			List.of(
@@ -63,7 +69,7 @@ public class TestService {
 			)
 		);
 
-		List<Integer> choiceIds = favoriteAnimalPoll.getChoices().stream()
+		List<Integer> choiceIds = StreamSupport.stream(choices.spliterator(), false)
 			.map(Choice::getChoiceId)
 			.collect(Collectors.toList());
 
